@@ -190,3 +190,130 @@ The following Jenkins plugins were configured to support the Continuous Integrat
 | PostgreSQL | Persistent database for SonarQube |
 | Nexus Repository Manager | Artifact storage and version management |
 | Nginx | Reverse proxy for SonarQube |
+
+
+## ☁️ AWS Infrastructure
+
+The Continuous Integration (CI) environment was deployed on Amazon Web Services (AWS) using four dedicated Amazon EC2 instances. Each server was assigned a specific responsibility to simulate an enterprise DevOps environment with clear separation of concerns between CI orchestration, build execution, code quality analysis, and artifact management.
+
+---
+
+### Infrastructure Overview
+
+| Server | Instance Name | Operating System | Instance Type | Primary Role |
+|---------|---------------|------------------|---------------|--------------|
+| Jenkins Controller | jenkins-server | Amazon Linux 2023 | t3.small | CI orchestration and pipeline execution |
+| Maven Build Agent | maven-agent | Amazon Linux 2023 | t3.small | Executes Maven builds, Checkstyle, SonarScanner, and deployment tasks |
+| SonarQube Server | Sonar-Server | Ubuntu 24.04 LTS | t3.small | Static code analysis and Quality Gate validation |
+| Nexus Repository Server | nexus-server | Amazon Linux 2023 | t3.small | Centralized storage for versioned build artifacts |
+
+---
+
+### Infrastructure Responsibilities
+
+#### Jenkins Controller (jenkins-server)
+
+- Hosts Jenkins 2.516.1
+- Orchestrates the complete CI pipeline
+- Retrieves source code from GitHub
+- Delegates build execution to the Maven Build Agent
+- Archives build artifacts
+- Coordinates integration with SonarQube and Nexus Repository Manager
+
+---
+
+#### Maven Build Agent (maven-agent)
+
+- Dedicated Jenkins build node
+- Executes Apache Maven 3.9.14 builds
+- Runs Checkstyle analysis
+- Executes SonarScanner
+- Generates deployable WAR artifacts
+- Publishes artifacts to Nexus Repository Manager
+
+---
+
+#### SonarQube Server (Sonar-Server)
+
+- Hosts SonarQube Community Build 25.x
+- Performs static code analysis
+- Detects bugs, vulnerabilities, and code smells
+- Evaluates Quality Gates
+- Uses PostgreSQL as its backend database
+- Exposed through Nginx Reverse Proxy
+
+---
+
+#### Nexus Repository Server (nexus-server)
+
+- Hosts Nexus Repository OSS 3.83.1-01
+- Stores versioned Maven artifacts
+- Maintains repository metadata
+- Serves as the enterprise artifact repository for future deployments
+
+---
+
+### Network Configuration
+
+All EC2 instances were deployed within the same Amazon VPC, enabling secure communication through private networking while exposing only the required management and application ports.
+
+| Component | Configuration |
+|-----------|---------------|
+| Amazon VPC | Shared VPC |
+| Subnets | AWS Subnets |
+| Internet Gateway | Attached |
+| Route Tables | Configured |
+| EC2 Key Pair | Used for SSH authentication |
+| Security Groups | Dedicated per server |
+| Private Communication | Enabled between all instances |
+
+---
+
+### Security Group Configuration
+
+| Security Group | Open Ports | Purpose |
+|----------------|-----------|---------|
+| jenkins-sg | 22, 8080 | SSH access and Jenkins Web UI |
+| maven-agent-sg | 22 | SSH communication with Jenkins Controller |
+| Sonar-SG | 22, 80, 9000 | SSH, Nginx Reverse Proxy, and SonarQube |
+| Nexus-SG | 22, 8081 | SSH and Nexus Repository Manager |
+
+---
+
+### Jenkins Agent Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Node Name | maven-agent |
+| Launch Method | Launch agents via SSH |
+| Remote Root Directory | /home/ec2-user |
+| Executors | 1 |
+| Label | maven-agent |
+| Authentication | SSH private key stored in Jenkins Credentials |
+
+---
+
+### Infrastructure Statistics
+
+| Resource | Quantity |
+|----------|----------|
+| Amazon EC2 Instances | 4 |
+| Security Groups | 4 |
+| Jenkins Controller | 1 |
+| Jenkins Build Agents | 1 |
+| SonarQube Servers | 1 |
+| Nexus Repository Servers | 1 |
+
+---
+
+### AWS Services Utilized
+
+- Amazon EC2
+- Amazon VPC
+- Amazon Subnets
+- Internet Gateway
+- Route Tables
+- Security Groups
+- EC2 Key Pairs
+
+The infrastructure follows a distributed architecture where responsibilities are separated across dedicated servers, improving scalability, maintainability, and alignment with enterprise DevOps practices.
