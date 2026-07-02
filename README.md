@@ -686,3 +686,69 @@ The pipeline completed successfully with a *BUILD SUCCESS* status and published 
 - SHA1 checksum files
 
 This configuration demonstrates secure credential management, centralized tool configuration, automated artifact publication, and enterprise Continuous Integration practices using Jenkins, SonarQube, Maven, and Nexus Repository Manager.
+
+
+## 📁 Repository Structure
+
+This repository is a fork of the original *hkhcoder/vprofile-project* repository and has been customized to support this enterprise Continuous Integration (CI) implementation. It contains the VProfile Java application source code, Maven project configuration, Jenkins pipeline definition, automation resources, and project documentation.
+
+During this implementation, the CI pipeline was executed using a *Pipeline Script configured directly in Jenkins. A Jenkinsfile is also present in the repository but was **not used as the pipeline source* for this implementation.
+
+text
+vprofile-project/
+│
+├── ansible/
+├── src/
+│   ├── main/
+│   └── test/
+├── vagrant/
+├── pom.xml
+├── Jenkinsfile
+├── README.md
+│
+└── Project source code
+
+
+---
+
+### Repository Customizations
+
+- Forked from *hkhcoder/vprofile-project*
+- Updated pom.xml to configure Maven artifact deployment to Nexus Repository Manager
+- Updated Nexus repository configuration for the current environment
+- Updated project documentation (README.md)
+- Retained the repository Jenkinsfile while implementing the CI pipeline using a Pipeline Script configured directly in Jenkins
+
+---
+
+### Directory Overview
+
+| Directory / File | Description |
+|------------------|-------------|
+| ansible/ | Ansible automation resources included with the project |
+| src/main | Application source code |
+| src/test | Unit test source code |
+| vagrant/ | Vagrant environment configuration files |
+| pom.xml | Maven project configuration, dependencies, plugins, and deployment settings |
+| Jenkinsfile | Jenkins Pipeline as Code definition retained in the repository. This implementation used a Pipeline Script configured directly in Jenkins. |
+| README.md | Project documentation |
+
+---
+
+### Build Output
+
+The Jenkins pipeline generated a deployable WAR artifact and published it to Nexus Repository Manager instead of storing build outputs in the GitHub repository.
+
+*Artifacts Published*
+
+- vprofile-v2.war
+- vprofile-v2.pom
+- maven-metadata.xml
+- MD5 checksum files
+- SHA1 checksum files
+
+---
+
+### DevOps Best Practice
+
+The project follows enterprise DevOps best practices by keeping application source code under version control in GitHub while storing generated build artifacts in a centralized Nexus Repository Manager. This approach provides artifact versioning, traceability, consistency across environments, and reliable deployment readiness.
