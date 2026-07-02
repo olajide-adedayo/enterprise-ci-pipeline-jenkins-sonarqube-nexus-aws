@@ -574,3 +574,115 @@ mvn clean deploy -DskipTests --settings /var/lib/jenkins/.m2/settings.xml
 ### Overall Outcome
 
 The pipeline automated the complete Continuous Integration workflow—from source code retrieval through build, testing, static code analysis, artifact generation, and publication to Nexus Repository Manager—resulting in a successful *BUILD SUCCESS* status and deployment-ready artifacts.
+
+
+## ⚙️ Jenkins, SonarQube & Nexus Configuration
+
+The Continuous Integration environment was configured using Jenkins Global Tools, secure credentials management, SonarQube integration, Maven deployment settings, and Nexus Repository Manager to support an automated enterprise CI workflow.
+
+---
+
+### Jenkins Global Tool Configuration
+
+| Tool | Configuration |
+|------|---------------|
+| JDK | JDK 17 (OpenJDK 17) |
+| Maven | Apache Maven 3.9.14 |
+| SonarScanner | SonarQube Scanner 8.1.0.6389 |
+
+---
+
+### Jenkins Credentials
+
+The following credentials were configured securely within Jenkins Credentials Manager:
+
+| Credential | Purpose |
+|------------|---------|
+| SonarQube Token | Authenticate Jenkins with SonarQube |
+| SSH Private Key | Secure communication between Jenkins Controller and Maven Build Agent |
+
+> *Note:* The GitHub repository is public; therefore, GitHub credentials were not required. Nexus deployment credentials were configured in the Maven settings.xml file.
+
+---
+
+### SonarQube Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Server Name | Sonar Server |
+| Authentication | Token |
+| Project Key | vprofile |
+| Project Name | vprofile |
+
+> *Note:* In public documentation, consider replacing the server URL with a placeholder (for example, http://<SONARQUBE_SERVER_IP>) if the instance is no longer intended to be publicly accessible.
+
+---
+
+### Nexus Repository Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Repository Name | vprofile-repo |
+| Repository Format | Maven2 |
+| Repository Type | Hosted |
+| Artifact Name | VProfile |
+| Artifact Version | v2 |
+| Deployment Method | Maven settings.xml |
+
+---
+
+### Maven Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Custom Settings File | Yes |
+| Settings File Location | /var/lib/jenkins/.m2/settings.xml |
+
+The custom Maven settings file stores the repository configuration and deployment credentials required to publish artifacts to Nexus Repository Manager.
+
+---
+
+### Jenkins Job Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Job Name | vprofile-ci |
+| Pipeline Type | Declarative Pipeline |
+| Pipeline Definition | Pipeline Script |
+| Build Trigger | Manual |
+
+---
+
+### Build Agent Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Agent Label | maven-agent |
+| Launch Method | SSH Agent |
+
+The Jenkins Controller delegates build execution to the dedicated Maven Build Agent, enabling distributed build execution and reducing workload on the controller.
+
+---
+
+### Artifact Archiving
+
+| Parameter | Value |
+|-----------|-------|
+| Artifact Archiving | Enabled |
+| Artifact Pattern | **/target/*.war |
+
+Jenkins archives the generated WAR artifact after a successful build, ensuring traceability and making the build output available for future deployment or verification.
+
+---
+
+### Build Result
+
+The pipeline completed successfully with a *BUILD SUCCESS* status and published the following artifacts to the Nexus Repository Manager:
+
+- vprofile-v2.war
+- vprofile-v2.pom
+- maven-metadata.xml
+- MD5 checksum files
+- SHA1 checksum files
+
+This configuration demonstrates secure credential management, centralized tool configuration, automated artifact publication, and enterprise Continuous Integration practices using Jenkins, SonarQube, Maven, and Nexus Repository Manager.
