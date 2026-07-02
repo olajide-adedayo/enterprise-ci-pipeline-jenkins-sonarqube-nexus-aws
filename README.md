@@ -10,6 +10,24 @@
 ![Pipeline](https://img.shields.io/badge/Jenkins-Pipeline%20as%20Code-red)
 ![DevOps](https://img.shields.io/badge/DevOps-Automation-green)
 
+
+## 📑 Table of Contents
+
+- [Project Overview](#-project-overview)
+- [Business Objective](#-business-objective)
+- [Solution Architecture](#-solution-architecture)
+- [Technology Stack](#-technology-stack)
+- [AWS Infrastructure](#-aws-infrastructure)
+- [CI Pipeline Workflow](#-ci-pipeline-workflow)
+- [Pipeline Stage Details](#-pipeline-stage-details)
+- [Jenkins, SonarQube & Nexus Configuration](#-jenkins-sonarqube--nexus-configuration)
+- [Repository Structure](#-repository-structure)
+- [Project Screenshots](#-project-screenshots)
+- [Skills Demonstrated](#-skills-demonstrated)
+- [Key Achievements](#-key-achievements)
+- [Troubleshooting & Lessons Learned](#-troubleshooting--lessons-learned)
+- [Future Enhancements](#-future-enhancements)
+- [Author](#-author)
 ## 📖 Project Overview
 
 This project demonstrates the implementation of an enterprise-grade Continuous Integration (CI) pipeline for the VProfile Java web application using *Jenkins Pipeline as Code* on Amazon Web Services (AWS).
@@ -991,3 +1009,20 @@ This project establishes a solid foundation for a production-ready CI platform. 
 ### Long-Term Vision
 
 The long-term objective is to evolve this implementation from an enterprise Continuous Integration (CI) solution into a fully automated, secure, scalable, and cloud-native DevOps platform that incorporates Continuous Delivery (CD), Infrastructure as Code (IaC), container orchestration, automated security validation, and comprehensive observability, following modern DevOps and Site Reliability Engineering (SRE) best practices.
+
+
+## 👨‍💻 Author
+
+*Olajide Adedayo*
+
+Aspiring DevOps Engineer with hands-on experience in AWS Cloud, Linux Administration, Continuous Integration (CI), Build Automation, Code Quality Analysis, Artifact Management, and Enterprise DevOps practices. Passionate about designing scalable cloud solutions, automating software delivery pipelines, and continuously expanding expertise in modern DevOps technologies.
+
+### 🌐 Connect With Me
+
+- *GitHub:* https://github.com/olajide-adedayo
+- *LinkedIn:* https://www.linkedin.com/in/olajide-adedayo-9126593b3/
+- *Medium:* https://medium.com/@olajideadedayo230
+
+---
+
+⭐ If you found this project helpful, consider giving the repository a *Star* to support my DevOps learning journey.
