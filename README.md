@@ -436,3 +436,141 @@ The deployment includes:
 ### Pipeline Outcome
 
 The pipeline completed successfully with a *BUILD SUCCESS* status, demonstrating a fully automated enterprise Continuous Integration workflow that integrates source code management, build automation, static code analysis, artifact archiving, and centralized artifact management.
+
+
+## ⚙️ Pipeline Stage Details
+
+Each stage of the Jenkins Pipeline was designed to automate a specific part of the software delivery lifecycle, ensuring build consistency, code quality, and reliable artifact management.
+
+---
+
+### Fetch Code
+
+*Purpose*
+
+Retrieves the latest source code from the *local* branch of the GitHub repository, ensuring that the pipeline always builds the most recent version of the application.
+
+*Technology Used*
+
+- Jenkins Git Plugin
+- GitHub
+- Git
+
+---
+
+### Build
+
+*Purpose*
+
+Compiles the Java application, resolves project dependencies from Maven Central Repository, and prepares the application for testing and packaging.
+
+*Technology Used*
+
+- Apache Maven 3.9.14
+- Maven Compiler Plugin
+- OpenJDK 17
+
+*Command Executed*
+
+text
+mvn clean install -DskipTests
+
+
+---
+
+### Unit Test
+
+*Purpose*
+
+Executes automated unit tests to verify that application components behave as expected before artifact generation.
+
+*Technology Used*
+
+- Maven Surefire Plugin
+- JUnit
+- Apache Maven
+
+*Command Executed*
+
+text
+mvn test
+
+
+---
+
+### Code Analysis with Checkstyle
+
+*Purpose*
+
+Performs static code style analysis to verify compliance with coding standards and identify formatting or style issues early in the development lifecycle.
+
+*Technology Used*
+
+- Maven Checkstyle Plugin
+- Apache Maven
+
+*Command Executed*
+
+text
+mvn checkstyle:checkstyle
+
+
+---
+
+### Code Analysis with SonarQube
+
+*Purpose*
+
+Analyzes the application source code to identify bugs, vulnerabilities, code smells, and maintainability issues, providing actionable insights into overall code quality.
+
+*Technology Used*
+
+- SonarQube Community Build 25.x
+- SonarScanner
+- Jenkins SonarQube Scanner Plugin
+
+---
+
+### Archive Artifact
+
+*Purpose*
+
+Archives the generated WAR artifact within Jenkins, providing traceability and making the build output available for future deployment or verification.
+
+*Artifact Generated*
+
+- vprofile-v2.war
+
+---
+
+### Deploy to Nexus Repository
+
+*Purpose*
+
+Publishes versioned Maven artifacts to Nexus Repository Manager, creating a centralized and reliable repository for deployment-ready application packages.
+
+*Technology Used*
+
+- Maven Deploy Plugin
+- Nexus Repository OSS
+- Apache Maven
+
+*Command Executed*
+
+text
+mvn clean deploy -DskipTests --settings /var/lib/jenkins/.m2/settings.xml
+
+
+*Artifacts Published*
+
+- vprofile-v2.war
+- vprofile-v2.pom
+- maven-metadata.xml
+- MD5 checksum files
+- SHA1 checksum files
+
+---
+
+### Overall Outcome
+
+The pipeline automated the complete Continuous Integration workflow—from source code retrieval through build, testing, static code analysis, artifact generation, and publication to Nexus Repository Manager—resulting in a successful *BUILD SUCCESS* status and deployment-ready artifacts.
