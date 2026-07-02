@@ -317,3 +317,122 @@ All EC2 instances were deployed within the same Amazon VPC, enabling secure comm
 - EC2 Key Pairs
 
 The infrastructure follows a distributed architecture where responsibilities are separated across dedicated servers, improving scalability, maintainability, and alignment with enterprise DevOps practices.
+
+
+## 🔄 Continuous Integration (CI) Pipeline Workflow
+
+The Continuous Integration (CI) pipeline was implemented using *Jenkins Pipeline as Code* to automate the build, testing, static code analysis, artifact generation, and artifact publication processes for the VProfile Java web application.
+
+The pipeline is defined directly within Jenkins and executes a sequence of automated stages whenever the pipeline is triggered.
+
+---
+
+### Pipeline Execution Flow
+
+text
+Developer
+      │
+      ▼
+GitHub Repository (local branch)
+      │
+      ▼
+Jenkins Pipeline
+      │
+      ▼
+Fetch Source Code
+      │
+      ▼
+Maven Build
+      │
+      ▼
+Unit Tests
+      │
+      ▼
+Checkstyle Analysis
+      │
+      ▼
+SonarQube Analysis
+      │
+      ▼
+Archive WAR Artifact
+      │
+      ▼
+Deploy Artifact to Nexus Repository
+      │
+      ▼
+BUILD SUCCESS
+
+
+---
+
+### Pipeline Stages
+
+#### 1. Fetch Code
+
+Jenkins checks out the *local* branch of the VProfile application from the GitHub repository, ensuring the latest source code is available for the build process.
+
+---
+
+#### 2. Build
+
+Apache Maven compiles the application, resolves project dependencies, and prepares the project for testing using:
+
+text
+mvn clean install -DskipTests
+
+
+---
+
+#### 3. Unit Test
+
+Automated unit tests are executed using Maven to validate the application's functionality before proceeding to the analysis stages.
+
+text
+mvn test
+
+
+---
+
+#### 4. Code Analysis with Checkstyle
+
+Checkstyle analyzes the source code against predefined coding standards and generates a report highlighting any style violations or inconsistencies.
+
+text
+mvn checkstyle:checkstyle
+
+
+---
+
+#### 5. Code Analysis with SonarQube
+
+SonarScanner submits the application source code to SonarQube for comprehensive static code analysis, evaluating code quality, bugs, vulnerabilities, and maintainability metrics.
+
+---
+
+#### 6. Archive Artifact
+
+Upon successful completion of the analysis stages, Jenkins archives the generated WAR artifact to preserve the build output for traceability and future deployment.
+
+---
+
+#### 7. Deploy to Nexus
+
+The final stage publishes the generated Maven artifacts to the configured Nexus Repository Manager using the following command:
+
+text
+mvn clean deploy -DskipTests --settings /var/lib/jenkins/.m2/settings.xml
+
+
+The deployment includes:
+
+- vprofile-v2.war
+- vprofile-v2.pom
+- maven-metadata.xml
+- MD5 checksum files
+- SHA1 checksum files
+
+---
+
+### Pipeline Outcome
+
+The pipeline completed successfully with a *BUILD SUCCESS* status, demonstrating a fully automated enterprise Continuous Integration workflow that integrates source code management, build automation, static code analysis, artifact archiving, and centralized artifact management.
