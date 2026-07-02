@@ -910,3 +910,57 @@ The successful completion of this project demonstrates the implementation of an 
 ### Project Outcome
 
 This implementation demonstrates practical experience in Continuous Integration, build automation, code quality analysis, artifact repository management, Linux administration, and AWS infrastructure provisioning. The completed solution reflects an enterprise-oriented CI workflow suitable for modern DevOps environments.
+
+
+## 🔧 Troubleshooting & Lessons Learned
+
+During the implementation of the Enterprise Continuous Integration (CI) Pipeline, several technical challenges were encountered and resolved. The following summarizes the key issues, root causes, and solutions applied throughout the project.
+
+### Troubleshooting Summary
+
+| Issue | Root Cause | Resolution |
+|-------|------------|------------|
+| Unable to SSH into the SonarQube EC2 instance | Security Group rules did not allow SSH access | Updated the Security Group to allow inbound TCP port 22 from the appropriate source and verified connectivity. |
+| SonarQube service failed to start | Insufficient system memory on the EC2 instance | Created and enabled a 2 GB swap file to provide additional virtual memory before restarting the service. |
+| SonarQube authentication failed (HTTP 401 Unauthorized) | Expired or incorrect SonarQube token configured in Jenkins | Generated a new SonarQube token and updated the Jenkins credential used by the pipeline. |
+| Maven deployment to Nexus timed out | Jenkins was using an outdated Nexus Repository server IP address | Updated the Nexus repository URL in the project's pom.xml, committed the change to GitHub, and reran the pipeline successfully. |
+| Jenkins pipeline failed during artifact deployment | Maven attempted to deploy to an unreachable Nexus endpoint | Corrected the deployment configuration and successfully redeployed the artifact. |
+| SonarQube dashboard was inaccessible | Nginx reverse proxy configuration had not been completed | Configured Nginx as a reverse proxy, validated the configuration using nginx -t, and reloaded the service. |
+| PostgreSQL backend configuration | SonarQube database and user had not yet been configured | Created the sonar database user, created the sonarqube database, and configured the JDBC connection in sonar.properties. |
+| Jenkins pipeline execution failed | Pipeline configuration issues were identified during execution | Reviewed the Jenkins Console Output, corrected the configuration, and reran the pipeline until it completed successfully. |
+
+---
+
+## 📚 Lessons Learned
+
+This project provided practical experience in designing, configuring, troubleshooting, and operating a production-style Continuous Integration (CI) pipeline on Amazon Web Services (AWS).
+
+### Technical Lessons
+
+- Built a multi-server CI environment using dedicated Amazon EC2 instances for Jenkins, Maven Build Agent, SonarQube, and Nexus Repository Manager.
+- Configured Jenkins to execute builds remotely through an SSH-connected build agent.
+- Integrated GitHub, Jenkins, Maven, Checkstyle, SonarQube, and Nexus Repository Manager into a complete CI workflow.
+- Performed automated static code analysis using Checkstyle and SonarQube.
+- Published versioned build artifacts to a centralized Nexus Repository Manager instead of storing build outputs in GitHub.
+- Configured PostgreSQL as the backend database for SonarQube.
+- Configured Nginx as a reverse proxy for secure access to SonarQube.
+- Used Apache Maven to build, test, analyze, package, archive, and deploy the application.
+- Managed Jenkins credentials securely using token-based authentication and SSH private keys.
+- Updated project configuration files, including pom.xml, to reflect infrastructure and deployment changes.
+
+### DevOps Best Practices
+
+- Separate application source code from generated build artifacts.
+- Store build outputs in a centralized artifact repository to support versioning and future deployments.
+- Keep credentials outside application source code whenever possible.
+- Validate service configurations before restarting production services.
+- Use Jenkins Console Output to troubleshoot and resolve pipeline failures.
+- Track infrastructure-related configuration changes using version control.
+- Validate each pipeline stage independently before executing the complete CI workflow.
+
+### Key Outcomes
+
+- Successfully implemented an end-to-end Enterprise Continuous Integration (CI) pipeline.
+- Automated source code retrieval, application compilation, unit testing, static code analysis, artifact archiving, and artifact deployment.
+- Successfully integrated GitHub, Jenkins, Maven, Checkstyle, SonarQube, and Nexus Repository Manager into a unified CI solution.
+- Produced a reusable enterprise CI pipeline that provides a strong foundation for future Continuous Delivery (CD), containerization, and deployment automation initiatives.
