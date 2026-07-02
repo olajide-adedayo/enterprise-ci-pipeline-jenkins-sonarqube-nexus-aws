@@ -124,3 +124,69 @@ Configured in front of the SonarQube server to provide secure and reliable HTTP 
 7. Upon successful validation, Jenkins generates and archives the WAR artifact.
 8. The pipeline publishes the versioned artifacts to the Nexus Repository Manager.
 9. Jenkins reports a final *BUILD SUCCESS*, confirming successful completion of the CI workflow.
+
+
+## 🛠️ Technology Stack
+
+The enterprise CI pipeline was implemented using industry-standard DevOps tools and AWS infrastructure. Each component plays a specific role in automating the build, code quality analysis, and artifact management process.
+
+| Category | Technology | Version |
+|----------|------------|---------|
+| Cloud Platform | Amazon Web Services (AWS EC2) | - |
+| CI Server | Jenkins | 2.516.1 |
+| Pipeline | Jenkins Pipeline (Pipeline as Code) | - |
+| Build Tool | Apache Maven | 3.9.14 |
+| Programming Language | Java (OpenJDK) | 17 |
+| Source Code Management | Git | 2.43.x |
+| Code Repository | GitHub | - |
+| Static Code Analysis | SonarQube Community Build | 25.x |
+| Sonar Scanner | SonarScanner | Installed on Maven Agent |
+| Artifact Repository | Nexus Repository OSS | 3.83.1-01 |
+| Code Style Analysis | Checkstyle | Maven Plugin |
+| Database | PostgreSQL | SonarQube Backend Database |
+| Operating System | Amazon Linux 2023 | Jenkins Controller, Maven Agent, Nexus Server |
+| Operating System | Ubuntu 24.04 LTS | SonarQube Server |
+| Reverse Proxy | Nginx | SonarQube Reverse Proxy |
+
+---
+
+### Jenkins Plugins Used
+
+The following Jenkins plugins were configured to support the Continuous Integration pipeline:
+
+- Pipeline
+- Git
+- Maven Integration
+- SonarQube Scanner
+- SSH Build Agents
+- Credentials
+- Pipeline Utility Steps
+
+---
+
+### Build Environment
+
+| Component | Configuration |
+|-----------|---------------|
+| Jenkins Controller | Amazon Linux 2023 EC2 |
+| Jenkins Build Agent | Amazon Linux 2023 EC2 |
+| Build Tool | Apache Maven 3.9.14 |
+| Java Version | OpenJDK 17 |
+| Git Version | 2.43.x |
+| SonarScanner | Installed on Maven Agent |
+| Pipeline Type | Pipeline as Code |
+| Pipeline Definition | Script configured directly in Jenkins |
+
+---
+
+### Supporting Services
+
+| Service | Purpose |
+|---------|----------|
+| GitHub | Source code repository |
+| Maven | Dependency management and application build |
+| Checkstyle | Static code style analysis |
+| SonarQube | Code quality inspection and Quality Gate validation |
+| PostgreSQL | Persistent database for SonarQube |
+| Nexus Repository Manager | Artifact storage and version management |
+| Nginx | Reverse proxy for SonarQube |
